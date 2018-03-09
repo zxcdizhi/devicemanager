@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxc.mapper.TasktypeMapper">
+
+	<select id="TasktypeList"  resultType="Tasktype">
+		select
+			ttid,
+			ttname
+		from
+			Tasktype
+	</select>
+
+	<select id="selectTasktype" resultType="Tasktype" parameterType="Tasktype">
+		select
+			ttid,
+			ttname
+		from
+		Tasktype
+		<where>
+			<if test="ttid !=null">
+				tttidid = #{ttid}
+			</if>
+			<if test="ttname !=null">
+				and ttname like '%#{ttname}%'
+			</if>
+			
+		</where>
+	</select>
+
+
+</mapper>

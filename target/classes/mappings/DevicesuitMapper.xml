@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxc.mapper.DevicesuitMapper">
+	<sql id="list">
+		`dsid`,
+		`dsname`,
+		`deviceId`,
+		`typeId`
+	</sql>
+
+	<select id="devicesuitList">
+		select
+			<include refid="list" />
+		from
+			devicesuit
+	</select>
+
+	<select id="selectDevicesuit" resultType="Devicesuit"
+		parameterType="Devicesuit">
+		select
+			<include refid="list" />
+		from
+			devicesuit
+		<where>
+			<if test="dsid !=null">
+				dsid = #{dsid}
+			</if>
+			<if test="deviceId !=null">
+				and did like '%#{deviceId}%'
+			</if>
+			<if test="typeId !=null">
+				and typeId = #{typeId}
+			</if>
+			<if test="dsname !=null">
+				and dsname like '%#{dsname}%'
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertDevicesuit" parameterType="Devicesuit">
+		insert into
+			devicesuit
+		(
+			<include refid="list" />
+		)
+		values
+		(
+			#{dsid},
+			#{dsname},
+			#{deviceId},
+			#{typeId}
+		)
+	</insert>
+
+	<delete id="deleteDevicesuitById" parameterType="java.lang.Integer">
+		delete from
+			Devicessuit
+		where 
+			dsid = #{0}
+	</delete>
+
+	<update id="updateDevicesuitById" parameterType="Devicesuit">
+		update
+			Devicesuit
+		set
+			dsid = #{dsid},
+			dsname = #{dsname},
+			deviceId = #{deviceId},
+			typeId = #{typeId}
+		where
+			dsid = #{dsid}
+	</update>
+</mapper>

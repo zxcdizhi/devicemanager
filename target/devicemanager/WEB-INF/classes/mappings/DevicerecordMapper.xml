@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxc.mapper.DevicerecordMapper">
+	<sql id="list">
+		`drid`,
+		`deviceId`,
+		`drtime`,
+		`userId`,
+		`drcause`
+	</sql>
+
+	<select id="DevicerecordList">
+		select
+		<include refid="list" />
+		from
+		Devicerecord
+	</select>
+
+	<select id="selectDevicerecord" resultType="Devicerecord"
+		parameterType="Devicerecord">
+		select
+		<include refid="list" />
+		from
+		Devicerecord
+		<where>
+			<if test="drid !=null">
+				drid = #{drid}
+			</if>
+			<if test="deviceId !=null">
+				and did like '%#{deviceId}%'
+			</if>
+			<if test="drtime !=null">
+				and drtime = #{drtime}
+			</if>
+			<if test="userId !=null">
+				and userId = #{userId}
+			</if>
+			<if test="drcause !=null">
+				and drcause = #{drcause}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertDevicerecord" parameterType="Devicerecord">
+		insert into
+		devicesrecord
+		(
+			`deviceId`,
+			`drtime`,
+			`userId`,
+			`drcause`
+		)
+		values
+		(
+			#{deviceId},
+			#{drtime},
+			#{userId},
+			#{drcause}
+		)
+	</insert>
+
+	<delete id="deleteDevicerecordById" parameterType="java.lang.Integer">
+		delete from
+			Devicesrecord
+		where 
+			drid = #{0}
+	</delete>
+
+	<update id="updateDevicerecordById" parameterType="Devicerecord">
+		update
+			Devicerecord
+		set
+			deviceId = #{deviceId},
+			drtime = #{drtime},
+			userId = #{userId},
+			drcause = #{drcause}
+		where
+			drid = #{drid}
+	</update>
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxc.mapper.AttendanceMapper">
+
+	<select id="attendanceList" resultType="Attendance">
+		SELECT
+		`userId`,
+		`signin`,
+		`late`
+		FROM
+		`Attendance`
+	</select>
+	<select id="selectAttendance"  resultType="Attendance">
+		SELECT
+		`userId`,
+		`signin`,
+		`late`
+		FROM
+		`Attendance`
+		<where>
+			<if test="userId != null">
+				userId= #{userId}
+			</if>
+			<if test="signin != null">
+				and signin like in '#{signin}%'
+			</if>
+			<if test="late != null">
+				and late = #{late}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertAttendance" parameterType="Attendance">
+		INSERT INTO
+			`attendance` 
+		(
+			`userId`,
+			`signin`,
+			`late`
+		)
+		VALUES
+		(
+			'#{userId}',
+			'#{signin}', 
+			'#{late}'
+		) 
+
+	</insert>
+
+	<delete id="deleteAttendanceById" parameterType="Attendance">
+		delete from
+			`Attendance`
+		where 
+			`userId`=#{userId} 
+		and 
+			signin = #{signin}
+	</delete>
+
+	<update id="updateAttendanceById" parameterType="Attendance">
+		UPDATE
+			`Attendance`
+		SET
+			`signin` = #{signin},
+			`late` = #{late},
+
+		WHERE 
+			`userId` = #{userId}
+	</update>
+
+
+</mapper>

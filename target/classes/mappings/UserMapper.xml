@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxc.mapper.UserMapper">
+	<sql id="list">
+		`uid`,
+		`uname`,
+		`upassword`,
+		`roleId`
+	</sql>
+	
+	<select id="userList" resultType="user">
+		SELECT
+			<include refid="list" />
+		FROM
+			`user`
+		<where>
+			<if test="uname!=null">
+				uname=#{uname}
+			</if>
+			<if test="upassword!=null">
+				upassword=#{upassword}
+			</if>
+			<if test="roleId!=null">
+				roleId=#{roleId}
+			</if>
+		</where>
+	</select>
+	<select id="selectUser" resultType="User" parameterType="User">
+		SELECT
+		<include refid="list" />
+		FROM
+		`user`
+		<where>
+			<if test="uid != null">
+				uid= #{uid}
+			</if>
+			<if test="uname != null">
+				and uname like in '%#{uname}%'
+			</if>
+			<if test="roleId != null">
+				and roleId = #{roleId}
+			</if>
+		</where>
+	</select>
+	<insert id="insertUser" parameterType="User">
+		insert into `user`
+		(
+			`uname`,
+			`upassword`,
+			`roleId`
+		) values
+		(
+			#{uname},
+			#{upassword},
+			#{roleId}
+		)
+	</insert>
+
+	<delete id="deleteUserById" parameterType="Integer">
+		delete from 
+			`user`
+		where 
+			`uid`=#{uid}
+	</delete>
+
+	<update id="updateUserById" parameterType="User">
+		UPDATE
+			`user`
+		SET
+			`uid` = #{uid},
+			`uname` = #{uname},
+			`upassword` = #{upassword},
+			`roleId` = #{roleId}
+		WHERE 
+			`uid` = #{uid}
+	</update>
+
+
+</mapper>

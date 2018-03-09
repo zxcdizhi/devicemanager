@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- resultType是返回值参数，parameterType是入参 -->
+
+<mapper namespace="com.zxc.mapper.DeviceMapper">
+	<sql id="list">
+		`did`,
+		`dname`,
+		`dtime`,
+		`dtype`,
+		`dstate`
+	</sql>
+
+	<select id="deviceList" resultType="Device" parameterType="Device">
+		select
+			<include refid="list" />
+		from
+			device
+		<where>
+			<if test="did !=null">
+				did = #{did}
+			</if>
+			<if test="dname !=null">
+				and dname like '%#{dname}%'
+			</if>
+			<if test="dtype !=null">
+				and dtype =#{dtype}
+			</if>
+			<if test="dstate !=null">
+				and dstate=#{dstate}
+			</if>
+		</where>
+	</select>
+
+	<select id="selectDevice" resultType="Device" parameterType="Device">
+		select
+			<include refid="list" />
+		from
+			device
+		<where>
+			<if test="did !=null">
+				did = #{did}
+			</if>
+			<if test="dname !=null">
+				and dname like '%#{dname}%'
+			</if>
+			<if test="dtype !=null">
+				and dtype =#{dtype}
+			</if>
+			<if test="dstate !=null">
+				and dstate=#{dstate}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertDevice" parameterType="Device">
+		insert into
+			device
+		(
+			<include refid="list" />
+		)
+		values
+		(
+			#{did},
+			#{dname},
+			#{dtime},
+			#{dtype},
+			#{dstate}
+		)
+	</insert>
+
+	<delete id="deleteDeviceById" parameterType="String">
+		delete from 
+			Device
+		where 
+			did = #{0}
+	</delete>
+
+	<update id="updateDeviceById" parameterType="Device">
+		update
+			Device
+		set
+			did = #{did},
+			dname = #{dname},
+			dtime = #{dtime},
+			dtype = #{dtype},
+			dstate =#{dstate}
+		where
+			did = #{did}
+	</update>
+</mapper>

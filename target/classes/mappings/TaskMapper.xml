@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zxc.mapper.TaskMapper">
+	
+
+	<select id="taskList" resultType="Task" >
+		select
+			`tid`,
+			`ttitle`,
+			`tdate`,
+			`taddress`,
+			`tmanager`,
+			`ttypeId`,
+			`tcar`,
+			`tdevice`,
+			`tpeople`,
+			`tremark`
+		from
+			task
+	</select>
+
+	<select id="selectTask" resultType="Task" parameterType="Task">
+		select
+			`tid`,
+			`ttitle`,
+			`tdate`,
+			`taddress`,
+			`tmanager`,
+			`ttypeId`,
+			`tcar`,
+			`tdevice`,
+			`tpeople`,
+			`tremark`
+		from
+			task
+		<where>
+			<if test="tid !=null">
+				tid = #{tid}
+			</if>
+			<if test="ttitle !=null">
+				and ttitle like '%#{ttitle}%'
+			</if>
+			<if test="tdate !=null">
+				and tdate = #{tdate}
+			</if>
+			<if test="taddress !=null">
+				and taddress like '%#{taddress}%'
+			</if>
+			<if test="tmanager !=null">
+				and tmanager = #{tmanager.uid}
+			</if>
+			<if test="typeId !=null">
+				and ttypeId = #{ttypeId}
+			</if>
+			<if test="tdevice !=null">
+				and tdevice like '%#{tdevice}%'
+			</if>
+			<if test="tpeople !=null">
+				and tpeople like '%#{tpeople}%'
+			</if>
+			<if test="tremark !=null">
+				and tremark like '%#{tremark}%'
+			</if>
+
+		</where>
+	</select>
+
+	<insert id="insertTask" parameterType="Task">
+		insert into
+		Task
+		(
+		`ttitle`,
+		`tdate`,
+		`taddress`,
+		`tmanager`,
+		`ttypeId`,
+		`tcar`,
+		`tdevice`,
+		`tpeople`,
+		`tremark`
+		)
+		values
+		(
+		#{ttitle},
+		#{tdate},
+		#{taddress},
+		#{tmanager.uid},
+		#{ttypeId},
+		#{tcar},
+		#{tdevice},
+		#{tpeople},
+		#{tremark}
+		)
+	</insert>
+<delete id="deleteTaskById" parameterType="java.lang.Integer">
+		delete from 
+			task
+		where 
+			tid = #{0}
+	</delete>
+
+	<update id="updateTaskById" parameterType="Task">
+		update
+			task
+		set
+			ttitle = #{ttitle},
+			tdate = #{tdate},
+			taddress = #{taddress},
+			tmanager = #{tmanager.uid},
+			ttypeId = #{ttypeId},
+			tcar = #{tcar},
+			tdevice = #{tdevice},
+			tpeople = #{tpeople},
+			tremark = #{tremark}
+		where
+			tid = #{tid}
+	</update>
+
+</mapper>
