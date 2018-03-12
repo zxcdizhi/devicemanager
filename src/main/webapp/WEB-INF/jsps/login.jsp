@@ -82,7 +82,7 @@
 							submitHandler : function() {
 								$
 										.ajax({
-											url : "${pageContext.request.contextPath}/user/login",
+											url : "${pageContext.request.contextPath}/start/login",
 											method : "post",
 											data : $('#signupForm').serialize(),
 											dataType : 'json',
@@ -91,7 +91,7 @@
 												if (res.message == '登录完成') {
 													$("#loginError").html(
 															"登录成功！");
-													var href = '${pageContext.request.contextPath}/user/toIndex';
+													var href = '${pageContext.request.contextPath}/start/openmain';
 													window.top.location.href = href;
 												} else if (res.message == '账号密码不正确') {
 													$("#loginError").html(

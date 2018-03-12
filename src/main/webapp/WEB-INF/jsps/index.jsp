@@ -102,7 +102,7 @@
                             
                         </li>
                         <li class="dropdown">
-                            <a class="dropdown-toggle count-info"  href="${ctx}/user/logout">退出</a>                            
+                            <a class="dropdown-toggle count-info"  href="${ctx}/start/logout">退出</a>                            
                         </li>
                     </ul>
                 </nav>

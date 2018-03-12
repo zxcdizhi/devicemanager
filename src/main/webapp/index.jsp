@@ -9,7 +9,7 @@
 </head>
 <body>
 <script type="text/javascript">
-    window.location.href="user/toLogin";
+    window.location.href="start/openmain";
 </script>
 </body>
 </html>

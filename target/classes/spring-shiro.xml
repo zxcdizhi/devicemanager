@@ -76,7 +76,7 @@
 		<property name="usernameParam" value="username" />
 		<property name="passwordParam" value="upassword" />
 		<property name="rememberMeParam" value="rememberMe" />
-		<property name="loginUrl" value="/user/login" />
+		<property name="loginUrl" value="/start/login" />
 	</bean>
 
 	<!--声明一个Service 注入到自定义Realm -->
@@ -97,7 +97,7 @@
 		<property name="securityManager" ref="securityManager" /> <!--加载管理器 -->
 
 		<!-- 要求登录时的链接(可根据项目的URL进行替换),非必须的属性,默认会自动寻找Web工程根目录下的"/login.html"页面 -->
-		<property name="loginUrl" value="/user/toLogin" />    <!--没有登录的时候，跳转到这个页面 -->
+		<property name="loginUrl" value="/user/openmain" />    <!--没有登录的时候，跳转到这个页面 -->
 
 
 		<!-- 用户访问未对其授权的资源时,所显示的连接 -->
@@ -110,9 +110,10 @@
 		<property name="filterChainDefinitions">
 			<value>
 				/static/**=anon
-				/user/login = anon <!--可以不需要登录 -->
-				/user/logout = logout
+				/start/login = anon <!--可以不需要登录 -->
+				/start/logout = logout
 				/authenticated.jsp = authc
+				/user/toUserList= perms[/user]
 				/**=user
 			</value>
 		</property>

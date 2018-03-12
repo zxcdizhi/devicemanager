@@ -24,7 +24,7 @@ import com.zxc.domain.User;
 import com.zxc.service.ShiroService;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/start")
 public class LoginController {
 
 	@Autowired
@@ -57,7 +57,7 @@ public class LoginController {
 		if (username == null) {
 			map.put("message", "账号不为空");
 			try {
-				res.sendRedirect("toLogin");
+				res.sendRedirect("openmain");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -101,37 +101,50 @@ public class LoginController {
 		return map;
 	}
 
-	@RequestMapping("/toLogin")
+	@RequestMapping("/openmain")
 	public String toLogin(HttpSession session) {
 		// 主体
 		Subject subject = SecurityUtils.getSubject();
-
-		/*
-		 * 此if是为了判断是否是记住我的状态，如果是就自动登录
-		 */
-		if (subject.isRemembered() && !subject.isAuthenticated()) {
-			Object principal = subject.getPrincipal();
-		
-			if (null != principal) {
-				User user = (User)principal;
-				String password = user.getUpassword();
-				UsernamePasswordToken token = new UsernamePasswordToken(user.getUid().toString(), password);
-				token.setRememberMe(true);
-				session.setAttribute("user", user);
-				subject.login(token);
-				return "redirect:/user/toIndex";
-			}
-		}
-		return "login";
+		return autoLogin(subject, session);
 	}
 
-	@RequestMapping("/toIndex")
-	public String toIndex() {
-		return "index";
-	}
+	
 
 	@RequestMapping("/logout")
 	public String logout() {
 		return "login";
 	}
+	
+	/*
+	 * 此方法作用是自动登录，原理是判断是否是 记住我 和 已认证 状态，根据这两种状态分别判断4种情况
+	 */
+	public String autoLogin(Subject subject,HttpSession session) {
+
+				/*
+				 * 此if是为了判断是否是记住我的状态，如果是就自动登录
+				 */
+				if(subject.isRemembered()) {
+					if(!subject.isAuthenticated()) {
+						Object principal = subject.getPrincipal();
+						
+						if (null != principal) {
+							User user = (User)principal;
+							String password = user.getUpassword();
+							UsernamePasswordToken token = new UsernamePasswordToken(user.getUid().toString(), password);
+							token.setRememberMe(true);
+							session.setAttribute("user", user);
+							subject.login(token);
+							return "index";
+						}
+					}else {
+						return "index";
+					}
+				}else {
+					if(!subject.isAuthenticated()) {
+						return "login";
+					}
+				}
+				return "index";
+		}
+				
 }

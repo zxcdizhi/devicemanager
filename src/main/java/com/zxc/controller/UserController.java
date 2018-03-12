@@ -43,7 +43,7 @@ public class UserController {
 	}
 	
 	
-	@RequestMapping("toUserList")
+	@RequestMapping("/toUserList")
 	public String touserList() {
 		return "userList";
 	}
